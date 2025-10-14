@@ -1,0 +1,152 @@
+.event-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.event-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.event-card-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  position: relative;
+}
+
+.event-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.event-card-content {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #1a1a1a;
+  line-height: 1.3;
+}
+
+.event-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.event-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.icon {
+  font-size: 1.1rem;
+}
+
+.event-card-description {
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+  font-size: 0.95rem;
+}
+
+.event-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+  margin-top: auto;
+}
+
+.event-price {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.price-free {
+  color: #28a745;
+}
+
+.price-paid {
+  color: #007bff;
+}
+
+.btn-view-details {
+  padding: 0.5rem 1.25rem;
+  background: var(--primary-color, #007bff);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-view-details:hover {
+  background: var(--primary-dark, #0056b3);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .event-card-image {
+    height: 160px;
+  }
+
+  .event-card-content {
+    padding: 1.25rem;
+  }
+
+  .event-card-title {
+    font-size: 1.2rem;
+  }
+
+  .event-detail-item {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-card-image {
+    height: 140px;
+  }
+
+  .event-card-content {
+    padding: 1rem;
+  }
+
+  .event-card-title {
+    font-size: 1.1rem;
+  }
+
+  .event-detail-item {
+    font-size: 0.85rem;
+  }
+
+  .btn-view-details {
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+  }
+}
