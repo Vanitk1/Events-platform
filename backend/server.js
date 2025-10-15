@@ -1,147 +1,112 @@
-// const express = require('express');
-// const cors = require('cors');
-// require('dotenv').config();
+require('dotenv').config();
 
-// const app = express();
-// const PORT = process.env.PORT || 3000;
+const express = require('express');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const cors = require('cors');
 
-// app.use(cors());
-// app.use(express.json());
+const app = express();
 
-// const { Pool } = require('pg');
-// const pool = new Pool({
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: {
-//     rejectUnauthorized: false
-//   }
-// });
+app.use(cors());
+app.use(express.json());
 
-// pool.query('SELECT NOW()', (err, res) => {
-//   if (err) {
-//     console.error('Database connection error:', err);
-//   } else {
-//     console.log('Database connected successfully');
-//   }
-// });
+console.log('=== Environment Check ===');
+console.log('Stripe Key exists:', !!process.env.STRIPE_SECRET_KEY);
+console.log('Port:', process.env.PORT);
+console.log('=======================');
 
-// app.get('/health', (req, res) => {
-//   res.json({ status: 'ok', message: 'Server is running' });
-// });
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'ok',
+    stripe: !!process.env.STRIPE_SECRET_KEY,
+  });
+});
 
-// app.get('/events', async (req, res) => {
-//   try {
-//     const result = await pool.query(
-//       'SELECT * FROM events ORDER BY start_time DESC'
-//     );
-//     res.json(result.rows);
-//   } catch (error) {
-//     console.error('Error fetching events:', error);
-//     res.status(500).json({ error: 'Failed to fetch events' });
-//   }
-// });
+app.post('/api/create-checkout-session', async (req, res) => {
+  console.log('\n🔵 Creating checkout session...');
+  console.log('📊 Request body:', req.body);
+  
+  try {
+    const { eventId, eventName, price, userId, userEmail } = req.body;
 
-// app.get('/events/:id', async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const result = await pool.query(
-//       'SELECT * FROM events WHERE id = $1',
-//       [id]
-//     );
-    
-//     if (result.rows.length === 0) {
-//       return res.status(404).json({ error: 'Event not found' });
-//     }
-    
-//     res.json(result.rows[0]);
-//   } catch (error) {
-//     console.error('Error fetching event:', error);
-//     res.status(500).json({ error: 'Failed to fetch event' });
-//   }
-// });
 
-// app.post('/events', async (req, res) => {
-//   try {
-//     const { title, description, start_time, end_time, location, price, image_url, created_by } = req.body;
-    
-//     const result = await pool.query(
-//       `INSERT INTO events (title, description, start_time, end_time, location, price, image_url, created_by)
-//        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-//        RETURNING *`,
-//       [title, description, start_time, end_time, location, price, image_url, created_by]
-//     );
-    
-//     res.status(201).json(result.rows[0]);
-//   } catch (error) {
-//     console.error('Error creating event:', error);
-//     res.status(500).json({ error: 'Failed to create event' });
-//   }
-// });
+    if (!eventId || !eventName || !price || !userId || !userEmail) {
+      return res.status(400).json({ 
+        error: 'Missing required fields'
+      });
+    }
 
-// app.put('/events/:id', async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { title, description, start_time, end_time, location, price, image_url } = req.body;
-    
-//     const result = await pool.query(
-//       `UPDATE events 
-//        SET title = $1, 
-//            description = $2, 
-//            start_time = $3, 
-//            end_time = $4, 
-//            location = $5, 
-//            price = $6, 
-//            image_url = $7,
-//            updated_at = CURRENT_TIMESTAMP
-//        WHERE id = $8
-//        RETURNING *`,
-//       [title, description, start_time, end_time, location, price, image_url, id]
-//     );
-    
-//     if (result.rows.length === 0) {
-//       return res.status(404).json({ error: 'Event not found' });
-//     }
-    
-//     res.json(result.rows[0]);res.json(result.rows[0]);
-//   } catch (error) {
-//     console.error('Error updating event:', error);
-//     res.status(500).json({ error: 'Failed to update event' });atus(500).json({ error: 'Failed to update event' });
-//   }
-// });
+    if (price <= 0) {
+      return res.status(400).json({ error: 'Price must be greater than 0' });
+    }
 
-// app.delete('/events/:id', async (req, res) => {elete('/events/:id', async (req, res) => {
-//   try {y {
-//     const { id } = req.params;
-    
-//     const result = await pool.query(
-//       'DELETE FROM events WHERE id = $1 RETURNING *',
-//       [id]   [id]
-//     ); );
-        
-//     if (result.rows.length === 0) {
-//       return res.status(404).json({ error: 'Event not found' });t found' });
-//     }
-    
-//     res.json({ message: 'Event deleted successfully', event: result.rows[0] });leted successfully', event: result.rows[0] });
-//   } catch (error) {catch (error) {
-//     console.error('Error deleting event:', error);eting event:', error);
-//     res.status(500).json({ error: 'Failed to delete event' });
-//   }
-// });
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'gbp',
+            product_data: {
+              name: eventName,
+              description: `Ticket for ${eventName}`,
+            },
+            unit_amount: Math.round(price * 100),
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${process.env.CLIENT_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}&event_id=${eventId}`,
+      cancel_url: `${process.env.CLIENT_URL}/events/${eventId}`,
+      customer_email: userEmail,
+      metadata: {
+        eventId,
+        userId,
+      },
+    });
 
-// app.post('/events/:id/signup', async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { user_id } = req.body; } = req.body;
-    
-//     res.json({ message: 'Successfully signed up for event' }); res.json({ message: 'Successfully signed up for event' });
-//   } catch (error) {  } catch (error) {
-//     console.error('Error signing up for event:', error);or('Error signing up for event:', error);
-//     res.status(500).json({ error: 'Failed to sign up for event' });'Failed to sign up for event' });
-//   }
-// });
+    console.log('✅ Session created:', session.id);
+    console.log('🔗 Checkout URL:', session.url);
 
-// app.listen(PORT, () => {, () => {
-//   console.log(`🚀 Server running on http://localhost:${PORT}`); running on http://localhost:${PORT}`);
-// });
+    res.json({ 
+      sessionId: session.id,
+      url: session.url
+    });
+  } catch (error) {
+    console.error('❌ Error:', error.message);
+    res.status(500).json({ 
+      error: error.message
+    });
+  }
+});
 
-// module.exports = app;
+app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  if (!process.env.STRIPE_WEBHOOK_SECRET) {
+    console.log('⚠️ Webhook received but secret not set');
+    return res.json({ received: true });
+  }
+
+  const sig = req.headers['stripe-signature'];
+
+  try {
+    const event = stripe.webhooks.constructEvent(
+      req.body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+
+    if (event.type === 'checkout.session.completed') {
+      console.log('✅ Payment successful:', event.data.object.id);
+    }
+
+    res.json({ received: true });
+  } catch (err) {
+    console.error('❌ Webhook error:', err.message);
+    res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`✅ Stripe configured: ${!!process.env.STRIPE_SECRET_KEY}`);
+});

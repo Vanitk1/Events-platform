@@ -2,19 +2,18 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../services/supabase';
 import api from '../services/api';
+import StripeCheckout from '../components/StripeCheckout';
 import '../styles/EventDetail.css';
 
-function EventDetail() {
+function EventDetail({ user }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSignedUp, setIsSignedUp] = useState(false);
-  const [user, setUser] = useState(null);
 
   const checkUser = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
     
     if (user) {
       const { data } = await supabase
@@ -149,7 +148,7 @@ function EventDetail() {
           </div>
 
           <div className="meta-item">
-            <span className="label" aria-label="Event price">💰 Price:</span>
+            <span className="label" aria-label="Event price">💷 Price:</span>
             <span>
               {parseFloat(event.price) === 0 
                 ? 'Free' 
@@ -187,12 +186,14 @@ function EventDetail() {
 
           <button 
             onClick={addToGoogleCalendar}
-            className="btn-secondary"
+            className="btn-calendar"
             aria-label={`Add ${event.title} to your Google Calendar`}
           >
             📅 Add to Google Calendar
           </button>
         </nav>
+
+        <StripeCheckout event={event} user={user} />
       </div>
     </div>
   );

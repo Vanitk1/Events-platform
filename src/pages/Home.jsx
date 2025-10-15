@@ -32,8 +32,8 @@ function Home() {
     <div className="home-container">
       <section className="hero">
         <div className="hero-content">
-          <h1>Discover Amazing Community Events</h1>
-          <p>Connect with your local community through exciting events and activities</p>
+          <h1>Discover amazing community events</h1>
+          <p>Connect with your community through exciting events and activities!</p>
           <div className="hero-buttons">
             <button 
               className="btn-primary"
@@ -93,7 +93,7 @@ function Home() {
                   </p>
                   <p className="event-location">📍 {event.location}</p>
                   <p className="event-price">
-                    {parseFloat(event.price) === 0 ? '🎉 Free' : `💰 £${parseFloat(event.price).toFixed(2)}`}
+                    {parseFloat(event.price) === 0 ? '🎉 Free' : `💷 £${parseFloat(event.price).toFixed(2)}`}
                   </p>
                 </div>
               </div>
@@ -135,7 +135,7 @@ function Home() {
         <h2>Ready to Get Started?</h2>
         <p>Join our community and start discovering amazing events today</p>
         <button 
-          className="btn-primary btn-large"
+          className="btn-third btn-large"
           onClick={() => navigate('/events')}
         >
           Explore All Events

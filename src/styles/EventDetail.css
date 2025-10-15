@@ -117,7 +117,7 @@
 }
 
 .btn-secondary {
-  background: white;
+  background: grey;
   color: var(--primary-color, #007bff);
   border: 2px solid var(--primary-color, #007bff);
 }
@@ -125,6 +125,31 @@
 .btn-secondary:hover {
   background: var(--primary-color, #007bff);
   color: white;
+}
+
+.btn-calendar {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+  background: #333 !important;
+  color: white !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-calendar:hover {
+  background: #555 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(51, 51, 51, 0.3);
+}
+
+.btn-calendar:active {
+  transform: translateY(0);
 }
 
 .btn-secondary:disabled {
@@ -156,7 +181,6 @@
   border-left: 4px solid #dc3545;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .event-detail-container {
     padding: 1rem;
@@ -175,7 +199,8 @@
   }
 
   .btn-primary,
-  .btn-secondary {
+  .btn-secondary,
+  .btn-calendar {
     width: 100%;
   }
 
@@ -216,6 +241,7 @@
 
 .btn-primary:focus-visible,
 .btn-secondary:focus-visible,
+.btn-calendar:focus-visible,
 .back-button:focus-visible {
   outline: 3px solid #007bff;
   outline-offset: 2px;
