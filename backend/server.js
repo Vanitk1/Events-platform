@@ -22,11 +22,19 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(express.json());
+// ✅ Fix: Middleware order matters!
+app.use((req, res, next) => {
+  if (req.path === '/api/webhook') {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
 
 console.log('=== Environment Check ===');
 console.log('Stripe Key exists:', !!process.env.STRIPE_SECRET_KEY);
 console.log('Port:', process.env.PORT);
+console.log('Client URL:', process.env.CLIENT_URL);
 console.log('=======================');
 
 app.get('/', (req, res) => {
@@ -42,6 +50,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/health', (req, res) => {
+  console.log('📍 Health check requested');
   res.json({ 
     status: 'ok',
     stripe: !!process.env.STRIPE_SECRET_KEY,
@@ -54,7 +63,6 @@ app.post('/api/create-checkout-session', async (req, res) => {
   
   try {
     const { eventId, eventName, price, userId, userEmail } = req.body;
-
 
     if (!eventId || !eventName || !price || !userId || !userEmail) {
       return res.status(400).json({ 
@@ -132,7 +140,11 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
   }
 });
 
+// ✅ IMPORTANT: Bind to 0.0.0.0 for Render
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+const HOST = '0.0.0.0';
+
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Server running on ${HOST}:${PORT}`);
+  console.log(`🔗 Client URL: ${process.env.CLIENT_URL}`);
 });
