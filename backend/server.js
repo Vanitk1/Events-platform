@@ -22,7 +22,6 @@ app.use(cors({
   credentials: true
 }));
 
-// ✅ Fix: Middleware order matters!
 app.use((req, res, next) => {
   if (req.path === '/api/webhook') {
     next();
@@ -140,7 +139,6 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
   }
 });
 
-// ✅ IMPORTANT: Bind to 0.0.0.0 for Render
 const PORT = process.env.PORT || 5000;
 const HOST = '0.0.0.0';
 
