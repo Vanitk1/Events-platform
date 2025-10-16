@@ -29,6 +29,18 @@ console.log('Stripe Key exists:', !!process.env.STRIPE_SECRET_KEY);
 console.log('Port:', process.env.PORT);
 console.log('=======================');
 
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Events Platform API',
+    status: 'running',
+    endpoints: {
+      health: '/api/health',
+      checkout: '/api/create-checkout-session (POST)',
+      webhook: '/api/webhook (POST)'
+    }
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'ok',
