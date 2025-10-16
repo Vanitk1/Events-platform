@@ -4,6 +4,8 @@ A comprehensive community events management platform where staff can create even
 
 ## 🚀 Live Demo
 
+https://community-events1.netlify.app
+
 ---
 
 ## ✨ Features

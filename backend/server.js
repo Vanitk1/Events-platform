@@ -59,6 +59,7 @@ app.get('/api/health', (req, res) => {
 app.post('/api/create-checkout-session', async (req, res) => {
   console.log('\n🔵 Creating checkout session...');
   console.log('📊 Request body:', req.body);
+  console.log('🔗 Client URL:', process.env.CLIENT_URL);
   
   try {
     const { eventId, eventName, price, userId, userEmail } = req.body;
@@ -99,8 +100,8 @@ app.post('/api/create-checkout-session', async (req, res) => {
     });
 
     console.log('✅ Session created:', session.id);
-    console.log('🔗 Checkout URL:', session.url);
-    console.log('↩️ Cancel URL:', `${process.env.CLIENT_URL}/events/${eventId}`);
+    console.log('🔗 Success URL:', session.success_url);
+    console.log('↩️ Cancel URL:', session.cancel_url);
 
     res.json({ 
       sessionId: session.id,
