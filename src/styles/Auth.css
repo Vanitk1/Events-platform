@@ -1,20 +1,20 @@
 .auth-container {
-  min-height: calc(100vh - 80px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem;
 }
 
 .auth-card {
   background: white;
-  padding: 3rem;
-  border-radius: 16px;
+  border-radius: 20px;
+  padding: 2.5rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  max-width: 450px;
   width: 100%;
-  animation: slideUp 0.5s ease;
+  max-width: 450px;
+  margin: 0 auto;
 }
 
 @keyframes slideUp {
@@ -251,5 +251,25 @@
   .btn-submit,
   .btn-google {
     padding: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 0.5rem;
+  }
+
+  .auth-card {
+    padding: 1.25rem;
+    max-width: 100%;
+  }
+
+  .auth-card h1 {
+    font-size: 1.5rem;
+  }
+
+  .btn-google svg {
+    width: 18px;
+    height: 18px;
   }
 }
