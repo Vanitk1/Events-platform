@@ -174,7 +174,6 @@
 
 .btn-submit {
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   border: none;
   border-radius: 8px;
@@ -214,7 +213,7 @@
 .btn-switch {
   background: none;
   border: none;
-  color: #667eea;
+  color: #333;
   font-weight: 600;
   cursor: pointer;
   font-size: 0.95rem;

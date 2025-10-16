@@ -190,7 +190,7 @@
 .form-actions {
   display: flex;
   gap: 1rem;
-  justify-content: flex-end;
+  justify-content: center; /* ✅ Changed from flex-end to center */
   margin-top: 2rem;
   padding-top: 2rem;
   border-top: 1px solid #e0e0e0;
@@ -205,6 +205,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
+  width: 200px; /* ✅ Changed: Fixed width instead of flex */
 }
 
 .btn-cancel {
@@ -557,11 +558,12 @@
 
   .form-actions {
     flex-direction: column-reverse;
+    gap: 0.75rem; /* ✅ Added: Reduce gap on mobile */
   }
 
   .btn-cancel,
   .btn-submit {
-    width: 100%;
+    width: 100%; /* ✅ Full width on mobile */
   }
 
   .suggested-images-grid {

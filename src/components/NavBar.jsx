@@ -1,132 +1,111 @@
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../services/supabase';
+import { useEffect, useState } from 'react';
+import '../styles/Navbar.css';
 
-function NavBar() {
+function Navbar() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
-      setLoading(false);
+      if (session?.user) {
+        fetchUserRole(session.user.id);
+      }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchUserRole(session.user.id);
+      } else {
+        setUserRole(null);
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
-  const handleSignOut = async () => {
+  const fetchUserRole = async (userId) => {
     try {
-      await supabase.auth.signOut();
-      setUser(null);
+      const { data, error } = await supabase
+        .from('users')
+        .select('role')
+        .eq('id', userId)
+        .single();
+
+      if (error) throw error;
+      setUserRole(data?.role);
     } catch (error) {
-      console.error('Error signing out:', error);
-      alert('Failed to sign out');
+      console.error('Error fetching user role:', error);
     }
   };
 
-  const handleSignIn = async () => {
-    try {
-      const redirectUrl = 'http://localhost:5173';
-      
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: redirectUrl,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-          }
-        }
-      });
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setMobileMenuOpen(false);
+    navigate('/');
+  };
 
-      if (error) {
-        console.error('Sign in error:', error);
-        alert(`Sign in failed: ${error.message}`);
-      }
-    } catch (error) {
-      console.error('Unexpected error:', error);
-      alert('An unexpected error occurred');
-    }
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
   };
 
   return (
-    <nav style={{ 
-      padding: '1rem 2rem', 
-      background: '#007bff', 
-      color: 'white',
-      display: 'flex',
-      gap: '2rem',
-      alignItems: 'center',
-      justifyContent: 'space-between'
-    }}>
-      <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-        <Link to="/" style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.2rem' }}>
-        Community Events
+    <nav className="navbar">
+      <div className="navbar-container">
+        <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
+          Events Platform
         </Link>
-        <Link to="/events" style={{ color: 'white', textDecoration: 'none' }}>
-        Events
-        </Link>
-        <Link to="/create-event" style={{ color: 'white', textDecoration: 'none' }}>
-        Create Event
-        </Link>
-        {user && (
-          <Link to="/my-events" style={{ color: 'white', textDecoration: 'none' }}>
-          My Events
-          </Link>
-        )}
-      </div>
-      
-      <div>
-        {loading ? (
-          <span>Loading...</span>
-        ) : user ? (
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.9rem' }}>{user.email}</span>
-            <button 
-              onClick={handleSignOut}
-              style={{ 
-                padding: '0.5rem 1rem', 
-                background: 'white', 
-                color: '#007bff',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                fontWeight: '600',
-                transition: 'transform 0.2s'
-              }}
-              onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
-              onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-            >
-            Sign Out
-            </button>
-          </div>
-        ) : (
-          <button 
-            onClick={handleSignIn}
-            style={{ 
-              padding: '0.5rem 1.5rem', 
-              background: 'white', 
-              color: '#007bff',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontWeight: '600',
-              transition: 'transform 0.2s'
-            }}
-            onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
-            onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-          >
-          Sign In with Google
-          </button>
-        )}
+
+        <button 
+          className={`mobile-menu-icon ${mobileMenuOpen ? 'active' : ''}`}
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <ul className={`navbar-menu ${mobileMenuOpen ? 'active' : ''}`}>
+          <li>
+            <Link to="/events" onClick={closeMobileMenu}>Browse Events</Link>
+          </li>
+
+          {user ? (
+            <>
+              <li>
+                <Link to="/my-events" onClick={closeMobileMenu}>My Events</Link>
+              </li>
+              {(userRole === 'staff' || userRole === 'admin') && (
+                <li>
+                  <Link to="/create-event" onClick={closeMobileMenu}>Create Event</Link>
+                </li>
+              )}
+              <li>
+                <Link to="/profile" onClick={closeMobileMenu}>Profile</Link>
+              </li>
+              <li>
+                <button onClick={handleSignOut} className="btn-signout">
+                  Sign Out
+                </button>
+              </li>
+            </>
+          ) : (
+            <li>
+              <Link to="/auth" onClick={closeMobileMenu} className="btn-signin">
+                Sign In
+              </Link>
+            </li>
+          )}
+        </ul>
       </div>
     </nav>
   );
 }
 
-export default NavBar;
+export default Navbar;

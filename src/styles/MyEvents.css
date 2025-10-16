@@ -233,6 +233,22 @@
   box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }
 
+.button-container {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+
+.btn-signup,
+.btn-calendar {
+  flex: 1;
+   align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 50px;
+}
+
 @media (max-width: 768px) {
   .my-events-container {
     padding: 1rem;
