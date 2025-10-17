@@ -398,80 +398,6 @@ Use Stripe test cards:
 
 ---
 
-## 📚 Project Structure
-
-```
-Events-platform/
-├── backend/
-│   ├── server.js          # Express server & Stripe integration
-│   ├── package.json
-│   └── .env
-├── src/
-│   ├── components/
-│   │   ├── EventCard.jsx
-│   │   ├── EventForm.jsx
-│   │   ├── Footer.jsx
-│   │   └── Navbar.jsx
-│   ├── pages/
-│   │   ├── Auth.jsx       # Login/Signup
-│   │   ├── Events.jsx     # All events list
-│   │   ├── EventDetail.jsx
-│   │   ├── Home.jsx       # Landing page
-│   │   ├── MyEvents.jsx   # User dashboard
-│   │   ├── PaymentSuccess.jsx
-│   │   └── Profile.jsx    # User profile & settings
-│   ├── services/
-│   │   └── supabase.js    # Supabase client
-│   ├── styles/           # CSS files
-│   ├── App.jsx           # Main app & routing
-│   └── main.jsx
-├── .env
-├── netlify.toml          # Netlify configuration
-├── package.json
-└── README.md
-```
-
----
-
-## 🧪 Testing
-
-### Manual Testing Checklist
-
-#### Authentication
-- [ ] Email signup works
-- [ ] Email login works
-- [ ] Google OAuth works
-- [ ] Logout works
-- [ ] Password reset works (profile page)
-- [ ] Protected routes redirect to auth
-
-#### Events
-- [ ] Browse events (public)
-- [ ] View event details
-- [ ] Create event (staff/admin)
-- [ ] Edit own event
-- [ ] Delete own event
-- [ ] Upload custom image
-- [ ] Select Unsplash image
-
-#### Payments
-- [ ] Free event signup works
-- [ ] Paid event redirects to Stripe
-- [ ] Test card payment succeeds
-- [ ] Payment success page shows
-- [ ] Cancel payment returns to events
-- [ ] Payment recorded in database
-
-#### Mobile
-- [ ] Responsive navbar works
-- [ ] Hamburger menu functions
-- [ ] Events display correctly
-- [ ] Forms are usable
-- [ ] Buttons are tappable
-- [ ] Profile page is centered
-
----
-
 ## 📊 Database Schema
 
 ### users
@@ -510,24 +436,6 @@ Events-platform/
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
----
-
 ## 👨‍💻 Author
 
 **Vanit Kashab**
@@ -548,20 +456,5 @@ This project is licensed under the MIT License.
 - **Render** for reliable backend hosting
 - **React** & **Vite** for modern development experience
 - **Emojipedia** for all the emojis 🎉
-
----
-
-## 📞 Support
-
-If you have any questions or need help, please:
-- Open an issue on GitHub
-- Contact me via LinkedIn
-- Email: vanitkashab@gmail.com
-
----
-
-**⭐ If you found this project helpful, please give it a star!**
-
----
 
 *Last updated: October 2024*
