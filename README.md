@@ -1,4 +1,4 @@
-# 🎉 Events Platform
+# Events Platform
 
 A comprehensive community events management platform where staff can create events and community members can discover, purchase tickets, and manage their profiles. Built with modern web technologies and secure payment processing.
 
