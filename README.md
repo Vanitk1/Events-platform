@@ -367,44 +367,6 @@ Use Stripe test cards:
 
 ---
 
-## 📊 Database Schema
-
-### users
-- `id` (UUID, PK) - References auth.users
-- `email` (TEXT, UNIQUE)
-- `role` (TEXT) - 'user', 'staff', or 'admin'
-- `created_at` (TIMESTAMP)
-
-### events
-- `id` (UUID, PK)
-- `title` (TEXT)
-- `description` (TEXT)
-- `start_time` (TIMESTAMP)
-- `end_time` (TIMESTAMP)
-- `location` (TEXT)
-- `price` (DECIMAL)
-- `image_url` (TEXT)
-- `created_by` (UUID, FK → users)
-- `created_at` (TIMESTAMP)
-
-### event_signups
-- `id` (UUID, PK)
-- `event_id` (UUID, FK → events)
-- `user_id` (UUID, FK → users)
-- `created_at` (TIMESTAMP)
-- UNIQUE constraint on (event_id, user_id)
-
-### payments
-- `id` (UUID, PK)
-- `event_id` (UUID, FK → events)
-- `user_id` (UUID, FK → users)
-- `amount` (DECIMAL)
-- `stripe_session_id` (TEXT, UNIQUE)
-- `status` (TEXT)
-- `created_at` (TIMESTAMP)
-
----
-
 ## 👨‍💻 Author
 
 **Vanit Kashab**
