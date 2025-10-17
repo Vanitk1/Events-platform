@@ -367,37 +367,6 @@ Use Stripe test cards:
 
 ---
 
-## 🐛 Known Issues & Solutions
-
-### Issue: OAuth redirects to localhost
-**Solution:** Update Supabase Site URL to production URL
-
-### Issue: Payment cancel goes to 404
-**Solution:** Added `netlify.toml` redirect configuration
-
-### Issue: Mobile navbar logo shows over sidebar
-**Solution:** Fixed z-index layering in navbar CSS
-
-### Issue: Android events not centered
-**Solution:** Added `justify-items: center` to events grid
-
----
-
-## 🔄 Recent Updates
-
-- ✅ Added profile page with password change
-- ✅ Fixed mobile responsiveness (navbar, buttons, grids)
-- ✅ Implemented payment cancellation handling
-- ✅ Added role-based access control
-- ✅ Improved button sizing and spacing
-- ✅ Fixed OAuth redirect issues
-- ✅ Added Netlify client-side routing
-- ✅ Enhanced mobile menu with hamburger icon
-- ✅ Centered profile page content
-- ✅ Improved form layouts on mobile
-
----
-
 ## 📊 Database Schema
 
 ### users
