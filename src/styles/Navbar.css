@@ -23,7 +23,7 @@
   color: white;
   text-decoration: none;
   transition: transform 0.2s;
-  z-index: 1001;
+  z-index: 999;
 }
 
 .navbar-logo:hover {
@@ -94,7 +94,7 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 1001;
+  z-index: 1002;
 }
 
 .mobile-menu-icon span {
@@ -125,6 +125,7 @@
 
   .navbar-logo {
     font-size: 1.25rem;
+    z-index: 999;
   }
 
   .mobile-menu-icon {
@@ -146,6 +147,7 @@
     transition: right 0.3s ease;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
+    z-index: 1001;
   }
 
   .navbar-menu.active {
