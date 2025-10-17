@@ -2,7 +2,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  color: #1a1a1a;
+  color: black;
 }
 
 .my-events-header {
@@ -15,7 +15,7 @@
   font-size: 2.5rem;
   font-weight: 800;
   color: white;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .my-events-header p {
@@ -272,4 +272,29 @@
   .btn-delete {
     width: 100%;
   }
+}
+
+
+.empty-state p {
+  font-size: 1.1rem;
+  color: red;
+  margin-bottom: 2rem;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+  padding: 0.875rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
 }

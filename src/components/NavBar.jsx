@@ -99,7 +99,7 @@ function Navbar() {
             <li>
               <Link to="/auth" onClick={closeMobileMenu} className="btn-signin">
                 Sign In
-              </Link>
+              </Link> 
             </li>
           )}
         </ul>

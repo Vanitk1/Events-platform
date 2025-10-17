@@ -11,6 +11,7 @@ import MyEvents from './pages/MyEvents';
 import PaymentSuccess from './pages/PaymentSuccess';
 import Auth from './pages/Auth';
 import './App.css';
+import Profile from '../src/pages/Profile.jsx';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -54,6 +55,7 @@ function App() {
             <Route path="/edit-event/:id" element={user ? <EventForm user={user} /> : <Navigate to="/auth" />} />
             <Route path="/my-events" element={user ? <MyEvents user={user} /> : <Navigate to="/auth" />} />
             <Route path="/auth" element={!user ? <Auth /> : <Navigate to="/" />} />
+            <Route path="/profile" element={user ? <Profile /> : <Navigate to="/auth" />} />
           </Routes>
         </main>
         <Footer />
