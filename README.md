@@ -386,6 +386,4 @@ Use Stripe test cards:
 - **Netlify** for seamless frontend hosting
 - **Render** for reliable backend hosting
 - **React** & **Vite** for modern development experience
-- **Emojipedia** for all the emojis 🎉
-
-*Last updated: October 2024*
+- **Emojipedia** for all the emojis
