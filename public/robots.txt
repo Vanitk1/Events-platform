@@ -1,2 +1,9 @@
-User-agents: *
+User-agent: *
 Allow: /
+
+Disallow: /auth
+Disallow: /profile
+Disallow: /my-events
+Disallow: /create-event
+Disallow: /edit-event/
+Disallow: /payment-success
