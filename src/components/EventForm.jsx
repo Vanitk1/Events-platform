@@ -188,7 +188,11 @@ function EventForm() {
 
   return (
     <div className="event-form-container">
-      <h1>{isEditMode ? 'Edit Event' : 'Create New Event'}</h1>
+      <div className="event-form-header">
+        <h1>
+          {isEditMode ? 'Edit Event' : 'Create New Event'}
+        </h1>
+      </div>
       
       <form onSubmit={handleSubmit} className="event-form">
         <div className="form-group">

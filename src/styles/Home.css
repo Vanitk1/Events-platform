@@ -316,6 +316,13 @@ html, body {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }
+
+  .featured-events {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    justify-items: center; /* ✅ Ensure centering on mobile */
+    padding: 0 1rem; /* ✅ Add horizontal padding */
+  }
 }
 
 @media (max-width: 480px) {
@@ -348,6 +355,13 @@ html, body {
   .stat-number {
     font-size: 2.5rem;
   }
+
+  .featured-events {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    justify-items: center; /* ✅ Ensure centering on small screens */
+    padding: 0 0.5rem; /* ✅ Less padding on very small screens */
+  }
 }
 
 @media (min-width: 1400px) {
@@ -362,9 +376,12 @@ html, body {
 }
 
 .featured-events {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+  justify-items: center; /* ✅ Added */
+  width: 100%; /* ✅ Added */
 }
 
 .featured-events h2 {
@@ -377,26 +394,4 @@ html, body {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   justify-items: center;
-}
-
-@media (max-width: 768px) {
-  .featured-events {
-    padding: 1rem;
-  }
-
-  .events-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .featured-events {
-    padding: 0.75rem;
-  }
-
-  .events-grid {
-    gap: 1rem;
-  }
 }
