@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { supabase } from '../services/supabase';
+// import { supabase } from '../services/supabase';
 import api from '../services/api';
 import StripeCheckout from '../components/StripeCheckout';
 import '../styles/EventDetail.css';
@@ -10,22 +10,22 @@ function EventDetail({ user }) {
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isSignedUp, setIsSignedUp] = useState(false);
+  // const [isSignedUp, setIsSignedUp] = useState(false);
 
-  const checkUser = useCallback(async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (user) {
-      const { data } = await supabase
-        .from('event_signups')
-        .select('*')
-        .eq('event_id', id)
-        .eq('user_id', user.id)
-        .single();
-      
-      if (data) setIsSignedUp(true);
-    }
-  }, [id]);
+  // const checkUser = useCallback(async () => {
+  //   const { data: { user } } = await supabase.auth.getUser();
+  //   
+  //   if (user) {
+  //     const { data } = await supabase
+  //       .from('event_signups')
+  //       .select('*')
+  //       .eq('event_id', id)
+  //       .eq('user_id', user.id)
+  //       .single();
+  //     
+  //     if (data) setIsSignedUp(true);
+  //   }
+  // }, [id]);
 
   const fetchEvent = useCallback(async () => {
     try {
@@ -42,25 +42,25 @@ function EventDetail({ user }) {
 
   useEffect(() => {
     fetchEvent();
-    checkUser();
-  }, [fetchEvent, checkUser]);
+    // checkUser();
+  }, [fetchEvent]);
 
-  const handleSignup = async () => {
-    if (!user) {
-      alert('Please log in to sign up for events');
-      navigate('/login');
-      return;
-    }
+  // const handleSignup = async () => {
+  //   if (!user) {
+  //     alert('Please log in to sign up for events');
+  //     navigate('/login');
+  //     return;
+  //   }
 
-    try {
-      await api.signup(id);
-      setIsSignedUp(true);
-      alert('✅ Successfully signed up for event!');
-    } catch (error) {
-      console.error('Error signing up:', error);
-      alert('❌ Failed to sign up. Please try again.');
-    }
-  };
+  //   try {
+  //     await api.signup(id);
+  //     setIsSignedUp(true);
+  //     alert('✅ Successfully signed up for event!');
+  //   } catch (error) {
+  //     console.error('Error signing up:', error);
+  //     alert('❌ Failed to sign up. Please try again.');
+  //   }
+  // };
 
   const addToGoogleCalendar = () => {
     const startDate = new Date(event.start_time).toISOString().replace(/-|:|\.\d+/g, '');
@@ -164,32 +164,11 @@ function EventDetail({ user }) {
 
         <nav className="event-actions" aria-label="Event actions">
           <button 
-            onClick={handleSignup}
-            disabled={isSignedUp}
-            className="btn-primary"
-            aria-label={
-              isSignedUp 
-                ? 'You are already signed up for this event' 
-                : `Sign up for ${event.title}`
-            }
-            aria-disabled={isSignedUp}
-            aria-describedby={isSignedUp ? 'signup-status' : undefined}
-          >
-            {isSignedUp ? '✅ You\'re Signed Up!' : 'Sign Up for Event'}
-          </button>
-
-          {isSignedUp && (
-            <span id="signup-status" className="sr-only">
-              You are currently registered for this event
-            </span>
-          )}
-
-          <button 
             onClick={addToGoogleCalendar}
-            className="btn-calendar"
+            className="btn-calendar-small"
             aria-label={`Add ${event.title} to your Google Calendar`}
           >
-            📅 Add to Google Calendar
+            📅 Add to Calendar
           </button>
         </nav>
 
