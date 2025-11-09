@@ -4,8 +4,7 @@ A comprehensive community events management platform where staff can create even
 
 ## 🚀 Live Demo
 
-- **Frontend:** https://community-events1.netlify.app
-- **Backend API:** https://events-platform-backend-w6su.onrender.com
+https://community-events1.netlify.app
 
 ### 🧪 Test Account 
 
