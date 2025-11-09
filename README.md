@@ -371,7 +371,7 @@ Use Stripe test cards:
 **Vanit Kashab**
 - GitHub: [@Vanitk1](https://github.com/Vanitk1)
 - LinkedIn: [vanit-k-11059b151](https://www.linkedin.com/in/vanit-k-11059b151)
-- Email: vanitkashab@gmail.com
+- Email: vanitk1@gmail.com
 
 ---
 
